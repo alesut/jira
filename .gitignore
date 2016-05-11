@@ -16,3 +16,6 @@ coverage/
 /spec/reports/
 /tmp/
 /repos/
+
+*.sublime-workspace
+*.sublime-project
