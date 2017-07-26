@@ -12,11 +12,13 @@ module Scenarios
 
     def check_issue(issue_task)
       issue_task.api_pullrequests.each do |pr|
+        puts "Start check #{pr.title}"
         diff_in_pr = pr.diff
         commit_id = pr.source['commit']['hash']
         commit = BITBUCKET.repo(pr.repo_owner, pr.repo_slug).commit(commit_id)
         status_of_build = commit.build_statuses.collect.last
         conflict_flag = diff_in_pr.include? '<<<<<<<'
+        next unless status_of_build
         log_string = "Status of pullrequest #{pr.title} is #{status_of_build.name}:#{status_of_build.state} and ".green
         conflict_flag_log = "conflict_flag is #{conflict_flag}".green
         conflict_flag_log = "conflict_flag is #{conflict_flag}".red if conflict_flag
